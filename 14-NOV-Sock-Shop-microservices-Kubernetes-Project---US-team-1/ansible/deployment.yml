@@ -1,0 +1,66 @@
+#git clone to ansible
+# ---
+#  - hosts: localhost
+#    tasks:
+#    - name: Clone a github repository
+#      git:
+#        repo: https://ilawal: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@https://github.com/CloudHight/14-NOV-Sock-Shop-microservices-Kubernetes-Project-APP-REPO-US-team-1/blob/main/deploy/kubernetes/complete-demo.yaml.git
+#        dest: /home/ubuntu/repos/
+#        clone: yes
+#        update: yes
+
+# ---
+# - hosts: all 
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     - name: install git package
+#       apt:
+#         name: git
+
+#     - name: Get updated files from git repository 
+#       git: 
+#         repo: "https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/CloudHight/14-NOV-Sock-Shop-microservices-Kubernetes-Project-APP-REPO-US-team-1/blob/main/deploy/kubernetes/complete-demo.yaml.git"
+#         dest: /home/ubuntu/repos/
+
+
+# ---
+# - hosts: all 
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     - name: install git package
+#       apt:
+#         name: git
+
+
+
+# $ cat ~/.netrc
+# machine github.com login ilawal password PASSWORD
+
+# $ cat playbook.yaml
+
+    - name: Temporarily copy .netrc so "git clone" below works without asking for password
+      ansible.builtin.copy:
+        src: ~/.netrc
+        dest: ./
+        mode: "u=rw,g=rw,o="
+
+    - name: Clone repo so remote changes can be easily committed
+      ansible.builtin.git:
+        repo: https://ilawal@github.com/CloudHight/14-NOV-Sock-Shop-microservices-Kubernetes-Project-APP-REPO-US-team-1.git
+        dest: /home/ubuntu/ansible/repos/
+        clone: yes
+        update: yes
+
+    - name: Securely delete .netrc
+      command: shred --iterations=1 --remove ~/.netrc
+      args:
+        removes: ~/.netrc
+
+    - name: ansible complete-demo.yaml file from remote to local.
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: /tmp/
+        flat: yes
+    

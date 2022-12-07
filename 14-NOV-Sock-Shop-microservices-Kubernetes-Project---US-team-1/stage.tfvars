@@ -1,0 +1,17 @@
+region = "us-east-1"
+profile = "cloudhight"
+vpc_cidr = "0.0.0.0/0"
+vpc_cidr2 = "10.0.0.0/16"
+ami_id = "ami-0574da719dca65348"
+public_subnets = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+ssh_user= "ubuntu"
+master_node_count = 3
+worker_node_count = 3
+master_instance_type = "t2.medium"
+worker_instance_type = "t2.medium"
+clusterlb_instance_type = "t2.medium"
+associate_public_ip_address = false
+ami_Jenkins_id = "ami-08e637cea2f053dfa"
+Environment = "stage"
