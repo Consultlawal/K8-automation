@@ -8,15 +8,26 @@ output "workers-ips" {
   value = aws_instance.workers.*.private_ip
 }
 output "clusterlb_pubip" {
-  value = aws_instance.clusterlb.*.public_ip
+  value = aws_instance.clusterlb.public_ip
 }
-
-/* output "name" {
-  value = ""
-} */
 output "k8s_alb-dns" {
   value = aws_lb.k8s-alb.dns_name
 }
 output "jenkins_lb_dns" {
   value = aws_elb.jenkins-lb.dns_name
+}
+output "jenkins_ip" {
+  value = aws_instance.Jenkins.private_ip
+}
+output "Route53_nameservers" {
+  value = aws_route53_record.routezone.name
+}
+output "ns_records" {
+  value = aws_route53_record.routezone.ns_records
+}
+output "pmt-dns" {
+  value = aws_lb.pmt-alb.dns_name
+}
+output "graf-dns" {
+  value = aws_lb.graf-alb.dns_name
 }

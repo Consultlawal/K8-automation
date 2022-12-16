@@ -35,7 +35,7 @@ resource "aws_security_group" "CLUSTER_SG" {
     from_port   = 0
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = ["${var.vpc_cidr}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -124,26 +124,27 @@ resource "aws_security_group" "CLUSTER_SG" {
 
 # }
 
-resource "aws_security_group" "k8_workers" { #   name        = "k8_workers"
-  description = "sec group for k8 worker nodes"
-  vpc_id      = module.vpc.vpc_id
+# resource "aws_security_group" "k8_workers" { #   name        = "k8_workers"
+#   description = "sec group for k8 worker nodes"
+#   vpc_id      = module.vpc.vpc_id
 
-  ingress {
-    #Kubelet API
-    from_port   = 10250
-    to_port     = 10250
-    protocol    = "tcp"
-    cidr_blocks = ["${var.vpc_cidr}"]
-  }
+#   ingress {
+#     #Kubelet API
+#     from_port   = 10250
+#     to_port     = 10250
+#     protocol    = "tcp"
+#     cidr_blocks = ["${var.vpc_cidr}"]
+#   }
 
-  ingress {
-    #NodePort Services†
-    from_port   = 30000
-    to_port     = 32767
-    protocol    = "tcp"
-    cidr_blocks = ["${var.vpc_cidr}"]
-  }
-}
+#   ingress {
+#     #NodePort Services†
+#     from_port   = 30000
+#     to_port     = 32767
+#     protocol    = "tcp"
+#     cidr_blocks = ["${var.vpc_cidr}"]
+#   }
+# }
+
 #Jenkins SG
 resource "aws_security_group" "Jenkins_SG" {
   name        = "Jenkins_SG"

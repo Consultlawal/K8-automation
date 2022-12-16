@@ -37,7 +37,7 @@ resource "aws_lb_target_group" "targetgroup" {
   vpc_id   = module.vpc.vpc_id
   port     = 30001
   protocol = "HTTP"
-    health_check {
+  health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 5
     interval            = 30
@@ -50,7 +50,7 @@ resource "aws_lb_target_group_attachment" "targetgroupatt1" {
   target_group_arn = aws_lb_target_group.targetgroup.arn
   target_id        = "${element(split(",", join(",", aws_instance.workers.*.id)), count.index)}"
   port             = 30001
-  count = 3
+  count            = 3
 }
 
 # Load Balancer Listener
@@ -67,10 +67,10 @@ resource "aws_lb_listener" "alblistener" {
 
 # Application Load Balancer
 resource "aws_lb" "k8s-alb" {
-  name                       = "k8s-alb"
-  security_groups            = [aws_security_group.k8_workers.id]
-  subnets                    = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
-  load_balancer_type         = "application"
+  name               = "k8s-alb"
+  security_groups    = [aws_security_group.CLUSTER_SG.id]
+  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
+  load_balancer_type = "application"
 }
 
 
@@ -80,15 +80,15 @@ resource "aws_lb_target_group_attachment" "targetgroupatt4" {
   target_group_arn = aws_lb_target_group.pmt-targetgroup.arn
   target_id        = "${element(split(",", join(",", aws_instance.workers.*.id)), count.index)}"
   port             = 31090
-  count = 3
+  count            = 3
 }
 
 # Application Load Balancer
 resource "aws_lb" "pmt-alb" {
-  name                       = "pmt-alb"
-  security_groups            = [aws_security_group.k8_workers.id]
-  subnets                    = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
-  load_balancer_type         = "application"
+  name               = "pmt-alb"
+  security_groups    = [aws_security_group.CLUSTER_SG.id]
+  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
+  load_balancer_type = "application"
 }
 
 # Pmt Load Balancer Listener
@@ -109,7 +109,7 @@ resource "aws_lb_target_group" "pmt-targetgroup" {
   vpc_id   = module.vpc.vpc_id
   port     = 31090
   protocol = "HTTP"
-    health_check {
+  health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 5
     interval            = 30
@@ -123,15 +123,15 @@ resource "aws_lb_target_group_attachment" "targetgroupatt7" {
   target_group_arn = aws_lb_target_group.graf-targetgroup.arn
   target_id        = "${element(split(",", join(",", aws_instance.workers.*.id)), count.index)}"
   port             = 31300
-  count = 3
+  count            = 3
 }
 
 # Application Load Balancer
 resource "aws_lb" "graf-alb" {
-  name                       = "graf-alb"
-  security_groups            = [aws_security_group.k8_workers.id]
-  subnets                    = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
-  load_balancer_type         = "application"
+  name               = "graf-alb"
+  security_groups    = [aws_security_group.CLUSTER_SG.id]
+  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
+  load_balancer_type = "application"
 }
 
 # Graf Load Balancer Listener
@@ -152,11 +152,10 @@ resource "aws_lb_target_group" "graf-targetgroup" {
   vpc_id   = module.vpc.vpc_id
   port     = 31300
   protocol = "HTTP"
-    health_check {
+  health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 5
     interval            = 30
     timeout             = 5
   }
 }
-
