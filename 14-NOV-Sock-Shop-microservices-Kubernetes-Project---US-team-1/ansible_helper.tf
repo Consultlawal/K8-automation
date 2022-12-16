@@ -58,6 +58,8 @@ resource "local_file" "ansible_vars_file" {
 
         master_ip: ${aws_instance.masters[0].private_ip}
         clusterlb_ip: ${aws_instance.clusterlb.private_ip}
+        username: XXXXXXX(PUT YOUR GIT USERNAME)
+        password: XXXXXXX(PUT YOUR GIT PAT)
         DOC
   filename = "ansible/ansible_vars_file.yml"
 }
@@ -154,7 +156,7 @@ resource "null_resource" "run_clusterlb" {
   }
 }
 
-resource "null_resource" "run_deployment" {
+ resource "null_resource" "run_deployment" {
   depends_on = [
     null_resource.provisioner,
     null_resource.copy_ansible_playbooks,
@@ -163,7 +165,7 @@ resource "null_resource" "run_deployment" {
     module.vpc,
     aws_instance.ansible,
     time_sleep.wait_for_ansible_init,
-    null_resource.run_ansible
+    null_resource.run_ansible,
     null_resource.run_clusterlb
   ]
 
@@ -186,4 +188,4 @@ resource "null_resource" "run_deployment" {
       "sleep 60 && ansible-playbook -i /home/ubuntu/inventory /home/ubuntu/ansible/deployment.yml ",
     ]
   }
-}
+} 

@@ -2,12 +2,6 @@ variable "region" {}
 variable "profile" {}
 variable "vpc_cidr" {}
 variable "vpc_cidr2" {}
-/* variable "accesskey" {
-  default = ""
-}
-variable "secretkey" {
-  default = ""
-} */
 variable "ami_id" {}
 variable "public_subnets" {}
 variable "private_subnets" {}
@@ -21,3 +15,4 @@ variable "clusterlb_instance_type" {}
 variable "associate_public_ip_address" {}
 variable "ami_Jenkins_id" {}
 variable "Environment"{}
+variable "domain_name" {}
