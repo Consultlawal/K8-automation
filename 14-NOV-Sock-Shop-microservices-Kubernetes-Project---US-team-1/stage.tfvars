@@ -1,5 +1,5 @@
 region = "us-east-1"
-profile = "cloudhight"
+# profile = "cloudhight"
 vpc_cidr = "0.0.0.0/0"
 vpc_cidr2 = "10.0.0.0/16"
 ami_id = "ami-0574da719dca65348"
