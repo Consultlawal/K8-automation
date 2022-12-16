@@ -1,5 +1,5 @@
 variable "region" {}
-variable "profile" {}
+# variable "profile" {}
 variable "vpc_cidr" {}
 variable "vpc_cidr2" {}
 variable "ami_id" {}
