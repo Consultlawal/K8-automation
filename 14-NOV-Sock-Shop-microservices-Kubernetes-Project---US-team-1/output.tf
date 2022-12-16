@@ -19,12 +19,12 @@ output "jenkins_lb_dns" {
 output "jenkins_ip" {
   value = aws_instance.Jenkins.private_ip
 }
-output "Route53_nameservers" {
-  value = aws_route53_record.routezone.name
-}
-output "ns_records" {
-  value = aws_route53_record.routezone.ns_records
-}
+# output "Route53_nameservers" {
+#   value = aws_route53_record.routezone.name
+# }
+# output "ns_records" {
+#   value = aws_route53_record.routezone.ns_records
+# }
 output "pmt-dns" {
   value = aws_lb.pmt-alb.dns_name
 }
