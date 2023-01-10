@@ -48,7 +48,7 @@
 
     - name: Clone repo so remote changes can be easily committed
       ansible.builtin.git:
-        repo: https://ilawal@github.com/CloudHight/14-NOV-Sock-Shop-microservices-Kubernetes-Project-APP-REPO-US-team-1.git
+        repo: https://github.com/Consultlawal/k8-REPO1.git
         dest: /home/ubuntu/ansible/repos/
         clone: yes
         update: yes
