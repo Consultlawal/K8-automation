@@ -40,27 +40,62 @@
 
 # $ cat playbook.yaml
 
-    - name: Temporarily copy .netrc so "git clone" below works without asking for password
-      ansible.builtin.copy:
-        src: ~/.netrc
-        dest: ./
-        mode: "u=rw,g=rw,o="
+#     - name: Temporarily copy .netrc so "git clone" below works without asking for password
+#       ansible.builtin.copy:
+#         src: ~/.netrc
+#         dest: ./
+#         mode: "u=rw,g=rw,o="
 
-    - name: Clone repo so remote changes can be easily committed
-      ansible.builtin.git:
-        repo: https://github.com/Consultlawal/k8-REPO1.git
-        dest: /home/ubuntu/ansible/repos/
-        clone: yes
-        update: yes
+#     - name: Clone repo so remote changes can be easily committed
+#       ansible.builtin.git:
+#         repo: https://github.com/Consultlawal/k8-REPO1.git
+#         dest: /home/ubuntu/ansible/repos/
+#         clone: yes
+#         update: yes
 
-    - name: Securely delete .netrc
-      command: shred --iterations=1 --remove ~/.netrc
+#     - name: Securely delete .netrc
+#       command: shred --iterations=1 --remove ~/.netrc
+#       args:
+#         removes: ~/.netrc
+
+#     - name: ansible complete-demo.yaml file from remote to local.
+#       fetch:
+#         src: /etc/kubernetes/admin.conf
+#         dest: /tmp/
+#         flat: yes
+
+---
+ - hosts: masters_first
+   become: 'yes'
+   vars_files:
+    - ansible_vars_file.yml
+   tasks:
+
+    - name: Clone Application Repo
+      shell: git clone https://{{ username}}:{{ password }}@https://github.com/Consultlawal/k8-REPO1
+
+    - name: Deploying Socks-Shop
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config create -f complete-demo.yaml
       args:
-        removes: ~/.netrc
+        chdir: k8-REPO1/deploy/kubernetes
 
-    - name: ansible complete-demo.yaml file from remote to local.
-      fetch:
-        src: /etc/kubernetes/admin.conf
-        dest: /tmp/
-        flat: yes
+    - name: Create monitoring namespace
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config create -f 00-monitoring-ns.yaml
+      args:
+        chdir: k8-REPO1/deploy/kubernetes/manifests-monitoring
+
+    - name: Apply Prometheus Manifests
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply $(ls *-prometheus-*.yaml | awk ' { print " -f " $1 } ')
+      args:
+        chdir: k8-REPO1/deploy/kubernetes/manifests-monitoring
+
+    - name: Apply Grafana Manifests
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply $(ls *-grafana-*.yaml | awk ' { print " -f " $1 }'  | grep -v grafana-import)
+      args:
+        chdir: k8-REPO1/deploy/kubernetes/manifests-monitoring
+
+    - name: Import Grafana Dashboard
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply -f 23-grafana-import-dash-batch.yaml
+      args:
+        chdir: k8-REPO1/deploy/kubernetes/manifests-monitoring
     
