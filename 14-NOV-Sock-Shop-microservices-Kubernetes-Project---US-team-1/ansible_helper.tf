@@ -59,7 +59,7 @@ resource "local_file" "ansible_vars_file" {
         master_ip: ${aws_instance.masters[0].private_ip}
         clusterlb_ip: ${aws_instance.clusterlb.private_ip}
         username: consultlawal
-        password: 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
+        password: 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
         DOC
   filename = "ansible/ansible_vars_file.yml"
 }
