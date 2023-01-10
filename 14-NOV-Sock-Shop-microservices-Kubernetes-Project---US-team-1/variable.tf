@@ -15,4 +15,4 @@ variable "clusterlb_instance_type" {}
 variable "associate_public_ip_address" {}
 variable "ami_Jenkins_id" {}
 variable "Environment"{}
-variable "domain_name" {}
+# variable "domain_name" {}
