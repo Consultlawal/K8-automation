@@ -72,7 +72,7 @@
    tasks:
 
     - name: Clone Application Repo
-      shell: git clone https://{{ username}}:{{ password }}@https://github.com/Consultlawal/k8-REPO1
+      shell: git clone https://{{ username}}:{{ password }}@https://github.com/Consultlawal/k8-REPO1.git
 
     - name: Deploying Socks-Shop
       shell: kubectl --kubeconfig=/home/ubuntu/.kube/config create -f complete-demo.yaml
