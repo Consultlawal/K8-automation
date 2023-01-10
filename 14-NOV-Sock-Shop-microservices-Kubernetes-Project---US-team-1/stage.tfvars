@@ -15,4 +15,4 @@ clusterlb_instance_type = "t2.medium"
 associate_public_ip_address = false
 ami_Jenkins_id = "ami-08e637cea2f053dfa"
 Environment = "stage"
-domain_name = "consultlawal"
+# domain_name = "consultlawal"
